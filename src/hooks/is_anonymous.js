@@ -1,9 +1,19 @@
 
+const getAuthToken = _ => {
+    const token = sessionStorage.getItem("token")
+    return token
+}
+
+const setAuthToken = _token => {
+    sessionStorage.setItem("token", _token)
+}
+
 
 const IsAuthenticated = _ => {
-
-    return false
+    let token = getAuthToken()
+    return token != null
 
 }
 
-export default IsAuthenticated
+export {getAuthToken, setAuthToken, IsAuthenticated}
+

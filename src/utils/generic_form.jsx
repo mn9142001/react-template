@@ -3,8 +3,9 @@ import isFormValid from "./validator";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { AUTH_HEADER } from "./constants";
+import {getAuthToken} from "../hooks/is_anonymous"
 
-const GenericForm = ({ fields, onSubmit, onSuccess, onPreSubmit, submitUrl, onError, method="post", token, formStyle, formDivStyle }) => {
+const GenericForm = ({ fields, onSubmit, onSuccess, onPreSubmit, submitUrl, onError, method="post", useToken, token, formStyle, formDivStyle }) => {
     const initialFormData = fields.reduce((acc, field) => {
         acc[field.name] = "";
         return acc;
@@ -25,7 +26,6 @@ const GenericForm = ({ fields, onSubmit, onSuccess, onPreSubmit, submitUrl, onEr
     };
 
     const sendData = data => {
-        console.log(submitUrl, "asdfjsdaoipfgj")
         let config = {
             method : method,
             data : data,
@@ -36,9 +36,17 @@ const GenericForm = ({ fields, onSubmit, onSuccess, onPreSubmit, submitUrl, onEr
             submitUrl = submitUrl.href
         }
 
-        if (token){
-            config.headers.authorization = `${AUTH_HEADER} ${token}`
+        if(useToken){
+            let _token;
+            if (token){
+                _token = token
+            } else {
+                _token = getAuthToken()
+            }
+            config.headers.authorization = `${AUTH_HEADER} ${_token}`
+            
         }
+
         return axios(submitUrl, config)
     }
 
@@ -77,7 +85,7 @@ const GenericForm = ({ fields, onSubmit, onSuccess, onPreSubmit, submitUrl, onEr
     const inputStyle = "p-1 text-center border-black border-2 text-black rounded-md m-2";
 
     return (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-screen max-w-screen h-screen flex items-center justify-center">
             <form className="flex flex-col w-fit p-2" onSubmit={formSubmitHandler}>
                 {fields.map((field) => (
                     field.isCustomComponent ? <field.element key={field.name} onValueChange={value => setData(field.name, value)} /> :

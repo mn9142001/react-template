@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import IsAuthenticated from '../hooks/is_anonymous';
+import {IsAuthenticated} from '../hooks/is_anonymous';
 
 const NotLoggedIn = e => {
     return <Navigate to={"/login/"} />
