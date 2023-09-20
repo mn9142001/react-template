@@ -12,6 +12,8 @@ import ProtectedComponent from './components/protected_route';
 import LogIn from './screens/register/login';
 import SignUp from './screens/register/signup';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import Stream from './screens/courses/streaming';
+import NavBar from './components/nav';
 
 
 
@@ -30,6 +32,10 @@ const router = createBrowserRouter([
             element : <SignUp />
         },
         {
+            path : "/lectures/:lectureID",
+            element : <ProtectedComponent component={<Stream />} />
+        },
+        {
             path : "*",
             element : <SignUp />
         }
@@ -42,7 +48,8 @@ const queryClient = new QueryClient()
 
 root.render(
     <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+            <NavBar />
+            <RouterProvider router={router} />
     </QueryClientProvider>
 );
 

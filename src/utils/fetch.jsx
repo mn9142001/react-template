@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react"
+import { AUTH_HEADER } from "./constants";
+import { getAuthToken } from "../hooks/is_anonymous";
+import axios from "axios";
 
 const JsonFetch = (url, request) => {
 
@@ -25,4 +28,16 @@ const JsonFetch = (url, request) => {
     return {response, isPending, error}
 }
 
-export {JsonFetch}
+
+const axiosFetchRequest = ({url, useToken}) => {
+    let options = {}
+
+    if (useToken === true) {
+        options['headers'] = {}
+        options['headers']['Authorization'] = `${AUTH_HEADER} ${getAuthToken()}`
+    }
+
+    return axios.get(url, options)
+}
+
+export {JsonFetch, axiosFetchRequest}
