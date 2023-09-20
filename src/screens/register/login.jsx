@@ -1,7 +1,7 @@
 import GenericForm from "../../utils/generic_form";
 import {LOGIN} from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
-import setAuthData from "./utils";
+import {setAuthData} from "./utils";
 
 const LogIn = () => {
     const fields = [

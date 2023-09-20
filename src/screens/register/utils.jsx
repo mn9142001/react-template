@@ -5,4 +5,8 @@ const setAuthData = response => {
     sessionStorage.setItem("profile_data", JSON.stringify(response.data))
 }
 
-export default setAuthData
+const getAuthData = _ => {
+    return JSON.parse(sessionStorage.getItem("profile_data"))
+}
+
+export {setAuthData, getAuthData}
